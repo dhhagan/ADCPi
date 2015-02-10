@@ -8,7 +8,7 @@ except ImportError:
 	from distutils.core import setup
 
 setup(name = 'ADCPi',
-	version = '0.0.3',
+	version = '0.0.4',
 	description = "Simple python library for raspberry pi interaction with the ADC expansion board.",
 	url = 'https://github.com/dhhagan/ADCPi',
 	author = 'David H Hagan',

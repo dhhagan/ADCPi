@@ -22,9 +22,7 @@ class ADCPi:
 
 	# local methods
 	def _updatebyte(self, byte, bit, value):
-		'''
-			Internal method for setting the value of a single bit within a byte
-		'''
+		''' Internal method for setting the value of a single bit within a byte '''
 		if value == 0:
 			return byte & ~(1 << bit)
 		elif value == 1:
@@ -54,7 +52,7 @@ class ADCPi:
 					self._currentchannel1 = 2
 				if channel == 3:
 					self._config1 = self._updatebyte(self._config1, 5, 0)
-					self._config1 = self._updatebyte(self._config1, 6, 0)
+					self._config1 = self._updatebyte(self._config1, 6, 1)
 					self._currentchannel1 = 3
 				if channel == 4:
 					self._config1 = self._updatebyte(self._config1, 5, 1)
@@ -78,7 +76,7 @@ class ADCPi:
 						self._config2 = self._updatebyte(self._config2, 5, 1)
 						self._config2 = self._updatebyte(self._config2, 6, 1)
 						self._currentchannel2 = 8
-			return
+		return
 
 	def __init__(self, bus, address = 0x68, address2 = 0x69, rate = 18):
 		''' Initialize object with i2caddress '''
@@ -196,10 +194,10 @@ class ADCPi:
 	def setBitRate(self, rate):
 		'''
 			Sample rate and resolution
-			12 = 12 bit
-			14 = 14 bit
-			16 = 16 bit
-			18 = 18 bit
+			12 = 12 bit (240 SPS Max)
+			14 = 14 bit (60 SPS Max)
+			16 = 16 bit (15 SPS Max)
+			18 = 18 bit (3.75 SPS Max)
 		'''
 		if rate == 12:
 			self._config1 = self._updatebyte(self._config1, 2, 0)
