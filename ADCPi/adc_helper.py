@@ -11,7 +11,7 @@ class ADCHelper:
 	def get_smbus(self):
 		''' Detect the i2c port number and assign to i2c_bus '''
 		i2c_bus = 0
-		for line in open('/proc/cpuinfo').readline():
+		for line in open('/proc/cpuinfo').readlines():
 			m = re.match('(.*?)\s*:\s*(.*)', line)
 			if m:
 				(name, value) = (m.group(1), m.group(2))

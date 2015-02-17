@@ -1,2 +1,2 @@
 # ADCPi
-Python library for the ADC Pi Raspberry Pi expansion board from ABElectronics UK
+Python library for the Delta Sigma ADC Pi Raspberry Pi expansion board from ABElectronics UK

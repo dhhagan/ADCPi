@@ -1,15 +1,18 @@
-__all__ = ['ADCPi']
+__all__ = ['DeltaSigma']
 
-class ADCPi:
-	_address = 0x68
-	_address2 = 0x69
-	_config1 = 0x1C
-	_currentchannel1 = 1
-	_config2 = 0x1C
-	_currentchannel2 = 1
-	_bitrate = 18
-	_pga = float(0.5)
-	_lsb = 7.8125e-6
+class DeltaSigma:
+	''' Returns an instance of the DeltaSigma class. '''
+
+	_address = 0x68			# default address for adc1 on the delta-sigma pi
+	_address2 = 0x69		# default address for adc2 on the delta-sigma pi
+	_config1 = 0x1C			# 
+	_currentchannel1 = 1 	# channel variable for adc1
+	_config2 = 0x1C			# 
+	_currentchannel2 = 1 	# channel variable for adc2
+	_bitrate = 18			# current bitrate
+	_signbit = False 		# signed bit checker
+	_pga = float(0.5)		# current pga setting
+	_lsb = float(7.8125e-6)	# default lsb value for 18 bit		
 
 	# create a byte array and fill it with initial values to define the size
 	_adcreading = bytearray()
@@ -29,11 +32,14 @@ class ADCPi:
 			return byte | (1 << bit)
 
 	def _checkbit(self, byte, bit):
-		bitval = ((byte & (1 << bit)) != 0)
-		
-		return True if (bitval == 1) else False
+		''' Internal method for reading the value of a single bit within a byte '''
+		if byte & (1 << bit):
+			return 1
+		else:
+			return 0
 
 	def _twos_comp(self, val, bits):
+		'''  '''
 		if ((val & (1 << (bits - 1))) != 0):
 			val = val - (1 << bits)
 		return val
@@ -79,7 +85,7 @@ class ADCPi:
 		return
 
 	def __init__(self, bus, address = 0x68, address2 = 0x69, rate = 18):
-		''' Initialize object with i2caddress '''
+		''' Initialize DeltaSigma object with i2caddress '''
 		self._bus = bus
 		self._address = address
 		self._address2 = address2
@@ -88,10 +94,11 @@ class ADCPi:
 	def read_voltage(self, channel):
 		''' Returns the voltage from the selected adc channel (1 to 8)'''
 		raw = self.read_raw(channel)
+
 		if self._signbit:
-			return float(0.0)
+			voltage = (raw * (self._lsb / self._pga)) - 2.048
 		else:
-			voltage = float(raw * (self._lsb / self._pga)) * 2.448579823702253
+			voltage = float(raw * (self._lsb / self._pga))
 
 		return float(voltage)
 
