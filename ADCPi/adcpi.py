@@ -102,6 +102,13 @@ class DeltaSigma:
 
 		return float(voltage)
 
+	def read_differential(self, channel1, channel2):
+		''' Returns a differential voltage reading between two channels '''
+		voltage1 = self.read_voltage(channel1)
+		voltage2 = self.read_voltage(channel2)
+
+		return float(voltage2 - voltage1)
+
 	def read_raw(self, channel):
 		''' Reads the raw value from the selected ADC channel '''
 		h = 0
