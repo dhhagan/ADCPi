@@ -10,7 +10,7 @@ except ImportError:
 	from distutils.core import setup
 
 setup(name = 'ADCPi',
-	version = '0.1.1',
+	version = '0.1.2',
 	description = "Simple python library for raspberry pi interaction with the Delta Sigma ADC expansion board.",
 	url = 'https://github.com/dhhagan/ADCPi',
 	author = 'David H Hagan',

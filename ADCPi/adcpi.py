@@ -109,6 +109,13 @@ class DeltaSigma:
 
 		return float(voltage2 - voltage1)
 
+	def read_channel(self, channel):
+		''' Returns voltage reading for a designated channel on the Delta Sigma ADC '''
+		if channel > 8:
+			raise TypeError("That channel is not valid")
+		else:
+			return float(self.read_differential(channel, channel + 8))
+
 	def read_raw(self, channel):
 		''' Reads the raw value from the selected ADC channel '''
 		h = 0
