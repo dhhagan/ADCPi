@@ -5,9 +5,9 @@ class DeltaSigma:
 
 	_address = 0x68			# default address for adc1 on the delta-sigma pi
 	_address2 = 0x69		# default address for adc2 on the delta-sigma pi
-	_config1 = 0x1C			# 
+	_config1 = 0x1C			# 28 or 11100
 	_currentchannel1 = 1 	# channel variable for adc1
-	_config2 = 0x1C			# 
+	_config2 = 0x1C			# 28 or 11100
 	_currentchannel2 = 1 	# channel variable for adc2
 	_bitrate = 18			# current bitrate
 	_signbit = False 		# signed bit checker
@@ -26,7 +26,11 @@ class DeltaSigma:
 	# local methods
 	def _updatebyte(self, byte, bit, value):
 		''' Internal method for setting the value of a single bit within a byte '''
+		# the default byte value is 0x1C (28)
 		if value == 0:
+			# 1 << bit returns 1 shifter over by bit: ex. 1 << 2 returns 100 (4)
+			# ~ returns the complement: so 100 becomes -101 (-5) ( -x - 1 )
+			# byte & x returns the bitwise and: so 0x1c & -101 returns 11000 (24)
 			return byte & ~(1 << bit)
 		elif value == 1:
 			return byte | (1 << bit)
